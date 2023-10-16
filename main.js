@@ -16,12 +16,12 @@ const descuentoRecargo = {
 };
 
 function calcularPrecioCuotas(producto){
-    const descuentoRecargo = descuentoRecargos[producto.cuotas];
-    const calculo = (producto.precio * producto.cantidad * descuentoRecargo) / 100;
+    const descuento = descuentoRecargo[producto.cuotas];
+    const calculo = (producto.precio * producto.cantidad * descuento) / 100;
     return producto.precio * producto.cantidad + calculo;
 }
 
-function AgregarProducto(){
+function agregarProducto(){
     const nombre = prompt("Ingrese el nombre del producto");
     const precio = parseFloat(prompt("Ingrese el precio del producto"));
     const cantidad = parseInt(prompt("Ingrese la cantidad"));
@@ -50,7 +50,7 @@ function calcularPrecio(){
 
         switch(opcion){
             case "1":
-                AgregarProducto();
+                agregarProducto();
                 break;
             case "2":
                 mostrarProductos();
