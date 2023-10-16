@@ -1,38 +1,65 @@
+function crearProducto(nombre, precio, cantidad, cuotas) {
+    return {
+    nombre,
+    precio,
+    cantidad,
+    cuotas,
+    };
+}
+
+const productos = [];
+const descuentoRecargo = {
+    1: 0,
+    3: 3,
+    6: 6,
+    12: 12
+};
+
+function calcularPrecioCuotas(producto){
+    const descuentoRecargo = descuentoRecargos[producto.cuotas];
+    const calculo = (producto.precio * producto.cantidad * descuentoRecargo) / 100;
+    return producto.precio * producto.cantidad + calculo;
+}
+
+function AgregarProducto(){
+    const nombre = prompt("Ingrese el nombre del producto");
+    const precio = parseFloat(prompt("Ingrese el precio del producto"));
+    const cantidad = parseInt(prompt("Ingrese la cantidad"));
+    const cuotas = parseInt(prompt("Ingrese en cuantas cuotas desea pagar"));
+
+    const nuevoProducto = crearProducto(nombre, precio, cantidad, cuotas);
+    productos.push(nuevoProducto);
+}
+
+function mostrarProductos(){
+    productos.forEach((producto, index) => {
+        const precioTotalCuotas = calcularPrecioCuotas(producto);
+        alert(`Producto ${index + 1}:
+        Nombre: ${producto.nombre}
+        Precio: ${producto.precio}
+        Cantidad: ${producto.cantidad}
+        Cuotas: ${producto.cuotas}
+        Precio en cuotas: ${precioTotalCuotas}`);
+    });
+}
+
+
 function calcularPrecio(){
-    let precio = parseFloat(prompt("Ingrese el precio de su producto"));
-    let cantidad = parseInt(prompt ("Ingrese la cantidad de su producto"));
-    let cuotas = parseInt(prompt("Ingrese en cuantas cuotas desea pagar. Tenemos en 1, 3, 6 y 12 cuotas"));
-    precioFinal = precio * cantidad;
+    while(true){
+        const opcion = prompt("Elija una opción: Escriba 1 para Agregar Producto. Escriba 2 para Calcular el Precio de los productos o Escriba 3 para salir");
 
-
-    while(cantidad !== 0 && precio !== 0 && cuotas !== 0){
-        switch(cuotas){
-            case 1:
-            alert(`El valor final de tu producto/s en ${cuotas} cuota/s es de ${precioFinal}`);
-            break;
-
-            case 3:
-            calculo = (precioFinal * 3)/100;
-            precioFinal += calculo;
-            alert(`El valor final de tu producto/s en ${cuotas} cuota/s es de ${precioFinal}`);
-            break;
-
-            case 6:
-            calculo = (precioFinal * 6)/100;
-            precioFinal += calculo;
-            alert(`El valor final de tu producto/s en ${cuotas} cuota/s es de ${precioFinal}`);
-            break;
-            
-            case 12: 
-            calculo = (precioFinal * 12)/100;
-            precioFinal += calculo;
-            alert(`El valor final de tu producto/s en ${cuotas} cuota/s es de ${precioFinal}`);
-            break;
+        switch(opcion){
+            case "1":
+                AgregarProducto();
+                break;
+            case "2":
+                mostrarProductos();
+                break;
+            case "3":
+                return;
+            default:
+                alert("Opción no valida. Por favor elija una opción válida.");
         }
-        precio = parseFloat(prompt("Ingrese el precio de su producto"));
-        cantidad = parseInt(prompt ("Ingrese la cantidad de su producto"));
-        cuotas = parseInt(prompt("Ingrese en cuantas cuotas desea pagar. Tenemos en 1, 3, 6 y 12 cuotas"));
-        precioFinal = precio * cantidad;
     }
 }
 calcularPrecio();
