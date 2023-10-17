@@ -43,10 +43,23 @@ function mostrarProductos(){
     });
 }
 
+function buscarProducto(nombre){
+    const productoEncontrado = productos.filter(producto => producto.nombre === nombre);
+    if(productoEncontrado.length > 0){
+        alert("Producto Encontrado:");
+        mostrarProductos(productoEncontrado);
+    } else {
+        alert("No se encontraron productos con ese nombre")
+    }
+}
 
 function calcularPrecio(){
     while(true){
-        const opcion = prompt("Elija una opción: Escriba 1 para Agregar Producto. Escriba 2 para Calcular el Precio de los productos o Escriba 3 para salir");
+        const opcion = prompt(`Elija una opción: 
+        1. Para Agregar Producto. 
+        2. Para Calcular el Precio de los productos. 
+        3. Para buscar un producto. 
+        4. para salir.`);
 
         switch(opcion){
             case "1":
@@ -56,6 +69,9 @@ function calcularPrecio(){
                 mostrarProductos();
                 break;
             case "3":
+                const busqueda = prompt("Ingrese el nombre del producto a buscar");
+                buscarProducto(busqueda);
+            case "4":
                 return;
             default:
                 alert("Opción no valida. Por favor elija una opción válida.");
