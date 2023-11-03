@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Calculadora de Precios</title>
 </head>
 <body>
+    <h1>Calculadora de Precios</h1>
+
+    <button id="btnAgregarProducto">Agregar Producto</button>
+    <button id="btnCalcularPrecio">Calcular Precio</button>
+
+    <div>
+        <label for="nombreBusqueda">Buscar Producto por Nombre:</label>
+        <input type="text" id="nombreBusqueda">
+        <button id="btnBuscarProducto">Buscar</button>
+    </div>
+
+    <div id="lista-productos">
+        <!-- Aquí se mostrarán los productos por JS -->
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
