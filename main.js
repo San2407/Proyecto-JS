@@ -67,7 +67,7 @@ function buscarProducto(nombre){
     }
 }
 
-function calcularPrecio(){
+/* function calcularPrecio(){
     while(true){
         const opcion = prompt(`Elija una opción: 
         1. Para Agregar Producto. 
@@ -91,7 +91,7 @@ function calcularPrecio(){
                 alert("Opción no valida. Por favor elija una opción válida.");
         }
     }
-}
+} */
 calcularPrecio();
 function actualizarLista(){
     const listaProductos = document.getElementById('listaProductos')
