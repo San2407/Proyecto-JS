@@ -1,3 +1,14 @@
+function guardarProductos(){
+    localStorage.setItem('productos', JSON.stringify(productos));
+}
+
+function cargarProductos(){
+    const productosJSON = localStorage.getItem('producto');
+    if(productosJSON){
+        productos = JSON.parse(productosJSON)
+    }
+}
+
 function crearProducto(nombre, precio, cantidad, cuotas) {
     return {
     nombre,
@@ -22,24 +33,26 @@ function calcularPrecioCuotas(producto){
 }
 
 function agregarProducto(){
-    const nombre = prompt("Ingrese el nombre del producto");
-    const precio = parseFloat(prompt("Ingrese el precio del producto"));
-    const cantidad = parseInt(prompt("Ingrese la cantidad"));
-    const cuotas = parseInt(prompt("Ingrese en cuantas cuotas desea pagar"));
-
     const nuevoProducto = crearProducto(nombre, precio, cantidad, cuotas);
     productos.push(nuevoProducto);
+    actualizarLista();
 }
 
 function mostrarProductos(){
+    const listaProductos = document.getElementById('listaProductos');
+    listaProductos.innerHTML = '';
     productos.forEach((producto, index) => {
         const precioTotalCuotas = calcularPrecioCuotas(producto);
-        alert(`Producto ${index + 1}:
-        Nombre: ${producto.nombre}
-        Precio: ${producto.precio}
-        Cantidad: ${producto.cantidad}
-        Cuotas: ${producto.cuotas}
-        Precio en cuotas: ${precioTotalCuotas}`);
+        const elementoPrducto = document.createElement('div');
+        elementoPrducto.innerHTML = `
+        <div>Producto ${index + 1}:</div>
+        <div>Nombre: ${producto.nombre}</div>
+        <div>Precio: ${producto.precio}</div>
+        <div>Cantidad: ${producto.cantidad}</div>
+        <div>Cuotas: ${producto.cuotas}</div>
+        <div>Precio en cuotas: ${precioTotalCuotas})</div>
+        `;
+        listaProductos.appendChild(elementoPrducto);
     });
 }
 
@@ -49,7 +62,8 @@ function buscarProducto(nombre){
         alert("Producto Encontrado:");
         mostrarProductos(productoEncontrado);
     } else {
-        alert("No se encontraron productos con ese nombre")
+        const listaProductos = document.getElementById('listaProductos');
+        listaProductos.innerHTML = 'No se encontraron productos con ese nombre.';
     }
 }
 
@@ -79,3 +93,6 @@ function calcularPrecio(){
     }
 }
 calcularPrecio();
+function actualizarLista(){
+    const listaProductos = document.getElementById('listaProductos')
+}
