@@ -1,12 +1,11 @@
+let productos;
 function guardarProductos() {
     localStorage.setItem('productos', JSON.stringify(productos));
 }
 
 function cargarProductos() {
-    const productosJSON = localStorage.getItem('producto');
-    if (productosJSON) {
-        productos = JSON.parse(productosJSON)
-    }
+    const productosJSON = localStorage.getItem('productos');
+    return productosJSON ? JSON.parse(productosJSON): [];
 }
 
 function crearProducto(nombre, precio, cantidad, cuotas) {
@@ -18,7 +17,6 @@ function crearProducto(nombre, precio, cantidad, cuotas) {
     };
 }
 
-const productos = [];
 const descuentoRecargo = {
     1: 0,
     3: 3,
@@ -32,10 +30,11 @@ function calcularPrecioCuotas(producto) {
     return producto.precio * producto.cantidad + calculo;
 }
 
-function agregarProducto() {
+function agregarProducto(nombre, precio, cantidad, cuotas) {
     const nuevoProducto = crearProducto(nombre, precio, cantidad, cuotas);
     productos.push(nuevoProducto);
     mostrarProductos();
+    guardarProductos();
 }
 
 function mostrarProductos() {
@@ -51,7 +50,7 @@ function mostrarProductos() {
         <div>Precio: ${producto.precio}</div>
         <div>Cantidad: ${producto.cantidad}</div>
         <div>Cuotas: ${producto.cuotas}</div>
-        <div>Precio en cuotas: ${precioTotalCuotas})</div>
+        <div>Precio en cuotas: ${precioTotalCuotas}</div>
         `;
         listaProductos.appendChild(elementoPrducto);
     });
@@ -92,4 +91,5 @@ document.getElementById('formularioProducto').addEventListener('submit', onSubmi
 document.getElementById('btnCalcularPrecio').addEventListener('click', CalcularPrecioClick);
 document.getElementById('btnBuscarProducto').addEventListener('click', BuscarProductoClick);
 
+productos = cargarProductos();
 mostrarProductos();
