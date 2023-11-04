@@ -1,20 +1,20 @@
-function guardarProductos(){
+function guardarProductos() {
     localStorage.setItem('productos', JSON.stringify(productos));
 }
 
-function cargarProductos(){
+function cargarProductos() {
     const productosJSON = localStorage.getItem('producto');
-    if(productosJSON){
+    if (productosJSON) {
         productos = JSON.parse(productosJSON)
     }
 }
 
 function crearProducto(nombre, precio, cantidad, cuotas) {
     return {
-    nombre,
-    precio,
-    cantidad,
-    cuotas,
+        nombre,
+        precio,
+        cantidad,
+        cuotas,
     };
 }
 
@@ -26,21 +26,22 @@ const descuentoRecargo = {
     12: 12
 };
 
-function calcularPrecioCuotas(producto){
+function calcularPrecioCuotas(producto) {
     const descuento = descuentoRecargo[producto.cuotas];
     const calculo = (producto.precio * producto.cantidad * descuento) / 100;
     return producto.precio * producto.cantidad + calculo;
 }
 
-function agregarProducto(){
+function agregarProducto() {
     const nuevoProducto = crearProducto(nombre, precio, cantidad, cuotas);
     productos.push(nuevoProducto);
-    actualizarLista();
+    mostrarProductos();
 }
 
-function mostrarProductos(){
+function mostrarProductos() {
     const listaProductos = document.getElementById('listaProductos');
     listaProductos.innerHTML = '';
+
     productos.forEach((producto, index) => {
         const precioTotalCuotas = calcularPrecioCuotas(producto);
         const elementoPrducto = document.createElement('div');
@@ -56,9 +57,9 @@ function mostrarProductos(){
     });
 }
 
-function buscarProducto(nombre){
+function buscarProducto(nombre) {
     const productoEncontrado = productos.filter(producto => producto.nombre === nombre);
-    if(productoEncontrado.length > 0){
+    if (productoEncontrado.length > 0) {
         alert("Producto Encontrado:");
         mostrarProductos(productoEncontrado);
     } else {
@@ -67,32 +68,28 @@ function buscarProducto(nombre){
     }
 }
 
-/* function calcularPrecio(){
-    while(true){
-        const opcion = prompt(`Elija una opción: 
-        1. Para Agregar Producto. 
-        2. Para Calcular el Precio de los productos. 
-        3. Para buscar un producto. 
-        4. para salir.`);
 
-        switch(opcion){
-            case "1":
-                agregarProducto();
-                break;
-            case "2":
-                mostrarProductos();
-                break;
-            case "3":
-                const busqueda = prompt("Ingrese el nombre del producto a buscar");
-                buscarProducto(busqueda);
-            case "4":
-                return;
-            default:
-                alert("Opción no valida. Por favor elija una opción válida.");
-        }
-    }
-} */
-calcularPrecio();
-function actualizarLista(){
-    const listaProductos = document.getElementById('listaProductos')
+function onSubmit(event) {
+    event.preventDefault();
+    const nombre = document.getElementById('nombreProducto').value;
+    const precio = parseFloat(document.getElementById('precioProducto').value);
+    const cantidad = parseInt(document.getElementById('cantidadProducto').value);
+    const cuotas = parseInt(document.getElementById('cuotasProducto').value);
+
+    agregarProducto(nombre, precio, cantidad, cuotas);
 }
+
+function CalcularPrecioClick(){
+    mostrarProductos();
+}
+
+function BuscarProductoClick (){
+    const busqueda = document.getElementById('nombreBusqueda').value;
+    buscarProducto(busqueda);
+}
+
+document.getElementById('formularioProducto').addEventListener('submit', onSubmit);
+document.getElementById('btnCalcularPrecio').addEventListener('click', CalcularPrecioClick);
+document.getElementById('btnBuscarProducto').addEventListener('click', BuscarProductoClick);
+
+mostrarProductos();
