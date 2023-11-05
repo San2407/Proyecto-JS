@@ -31,10 +31,6 @@ function calcularPrecioCuotas(producto) {
 }
 
 function agregarProducto(nombre, precio, cantidad, cuotas) {
-    if (isNaN(precio) || isNaN(cantidad) || precio <= 0 || cantidad <= 0) {
-        alert("El precio y la cantidad deben ser números positivos.");
-        return;
-    }
     const nuevoProducto = crearProducto(nombre, precio, cantidad, cuotas);
     productos.push(nuevoProducto);
     mostrarProductos();
@@ -79,13 +75,24 @@ function onSubmit(event) {
     const cantidad = parseInt(document.getElementById('cantidadProducto').value);
     const cuotas = parseInt(document.getElementById('cuotasProducto').value);
 
+    if (!nombre || isNaN(precio) || isNaN(cantidad) || isNaN(cuotas)) {
+        alert('Por favor, complete todos los campos con valores válidos.');
+        return;
+    }
+
+    if (precio <= 0 || cantidad <= 0) {
+        alert('El precio y la cantidad deben ser números positivos.');
+        return;
+    }
     agregarProducto(nombre, precio, cantidad, cuotas);
 }
 
 function CalcularPrecioClick(){
-    mostrarProductos();
+    const precioTotal = productos.reduce((total, producto) => {
+        return total + calcularPrecioCuotas(producto);
+    }, 0);
+    document.getElementById('precioTotal').textContent = `$${precioTotal}`;
 }
-
 function BuscarProductoClick (){
     const busqueda = document.getElementById('nombreBusqueda').value;
     buscarProducto(busqueda);
