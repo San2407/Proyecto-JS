@@ -31,6 +31,10 @@ function calcularPrecioCuotas(producto) {
 }
 
 function agregarProducto(nombre, precio, cantidad, cuotas) {
+    if (isNaN(precio) || isNaN(cantidad) || precio <= 0 || cantidad <= 0) {
+        alert("El precio y la cantidad deben ser números positivos.");
+        return;
+    }
     const nuevoProducto = crearProducto(nombre, precio, cantidad, cuotas);
     productos.push(nuevoProducto);
     mostrarProductos();
@@ -43,16 +47,16 @@ function mostrarProductos() {
 
     productos.forEach((producto, index) => {
         const precioTotalCuotas = calcularPrecioCuotas(producto);
-        const elementoPrducto = document.createElement('div');
-        elementoPrducto.innerHTML = `
-        <div>Producto ${index + 1}:</div>
-        <div>Nombre: ${producto.nombre}</div>
-        <div>Precio: ${producto.precio}</div>
-        <div>Cantidad: ${producto.cantidad}</div>
-        <div>Cuotas: ${producto.cuotas}</div>
-        <div>Precio en cuotas: ${precioTotalCuotas}</div>
+        const elementoProducto = document.createElement('section');
+        elementoProducto.innerHTML = `
+        <p>Producto ${index + 1}:</p>
+        <p>Nombre: ${producto.nombre}</p>
+        <p>Precio: ${producto.precio}</p>
+        <p>Cantidad: ${producto.cantidad}</p>
+        <p>Cuotas: ${producto.cuotas}</p>
+        <p>Precio en cuotas: ${precioTotalCuotas}</p>
         `;
-        listaProductos.appendChild(elementoPrducto);
+        listaProductos.appendChild(elementoProducto);
     });
 }
 
