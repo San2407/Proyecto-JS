@@ -1,0 +1,74 @@
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+}
+
+#formularioProducto,
+.lista{
+    width: 80%;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.barraDeBusqueda{
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.btnForm{
+    display: flex;
+    justify-content: space-between;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+}
+
+#btnBuscarProducto{
+    width: 100%;
+}
+
+#precioTotalContainer{
+    width: 80%;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+}

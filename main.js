@@ -43,14 +43,16 @@ function mostrarProductos() {
 
     productos.forEach((producto, index) => {
         const precioTotalCuotas = calcularPrecioCuotas(producto);
-        const elementoProducto = document.createElement('section');
+        const elementoProducto = document.createElement('tr');
+        elementoProducto.classList.add('alert')
         elementoProducto.innerHTML = `
-        <p>Producto ${index + 1}:</p>
-        <p>Nombre: ${producto.nombre}</p>
-        <p>Precio: ${producto.precio}</p>
-        <p>Cantidad: ${producto.cantidad}</p>
-        <p>Cuotas: ${producto.cuotas}</p>
-        <p>Precio en cuotas: ${precioTotalCuotas}</p>
+        <th scope:row>${index + 1}</th>
+        <td>${producto.nombre}</td>
+        <td>${producto.precio}</td>
+        <td>${producto.cantidad}</td>
+        <td>${producto.cuotas}</td>
+        <td>${precioTotalCuotas}</td>
+        <td><a href="#" class="close"><span><i class="bi bi-x-circle-fill text-danger"></i></span></a></td>   
         `;
         listaProductos.appendChild(elementoProducto);
     });
