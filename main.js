@@ -8,6 +8,12 @@ function cargarProductos() {
     return productosJSON ? JSON.parse(productosJSON): [];
 }
 
+function eliminarProducto(index){
+    productos.splice(index, 1);
+    guardarProductos();
+    mostrarProductos();
+}
+
 
 function crearProducto(nombre, precio, cantidad, cuotas) {
     return {
@@ -64,23 +70,12 @@ listaProductos.addEventListener("click", eliminarFila);
 
 function eliminarFila(e) {
     if (e.target.matches("i")) {
-        const indexFila = e.target.parentNode.parentNode.rowIndex;
+        const indexFila = e.target.parentNode.parentNode.rowIndex + 1;
         listaProductos.deleteRow(indexFila);
+        eliminarProducto(indexFila);
     }
 }
 
-
-
-//function buscarProducto(nombre) {
-//    const productoEncontrado = productos.filter(producto => producto.nombre === nombre);
-//    if (productoEncontrado.length > 0) {
-//        alert("Producto Encontrado:");
-//        mostrarProductos();
-//    } else {
-//        const listaProductos = document.getElementById('listaProductos');
-//        listaProductos.innerHTML = 'No se encontraron productos con ese nombre.';
-//    }
-//}
 function buscarProducto(nombre) {
     const productosEncontrados = productos.filter(producto => producto.nombre === nombre);
     if (productosEncontrados.length > 0) {
