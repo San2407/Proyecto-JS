@@ -15,27 +15,26 @@
 
     <form id="formularioProducto">
         <label for="nombreProducto">Nombre del Producto:</label>
-        <input type="text" id="nombreProducto" required><br>
+        <input type="text" id="nombreProducto" ><br>
 
         <label for="precioProducto">Precio:</label>
-        <input type="text" id="precioProducto" required pattern="^\d+(\.\d{1,2})?$"><br>
+        <input type="text" id="precioProducto" ><br>
 
         <label for="cantidadProducto">Cantidad:</label>
-        <input type="number" id="cantidadProducto" required><br>
+        <input type="number" id="cantidadProducto" ><br>
 
         <label for="cuotasProducto">Cuotas:</label>
-        <input type="number" id="cuotasProducto" required><br>
+        <input type="number" id="cuotasProducto" ><br>
 
         <div class="btnForm">
             <button type="submit" id="btnAgregarProducto">Agregar Producto</button>
-            <button id="btnCalcularPrecio">Calcular Precio</button>
+            <button type="button" id="btnCalcularPrecio">Calcular Precio</button>
         </div>
     </form>
 
     <div class="barraDeBusqueda">
         <label for="nombreBusqueda">Buscar Producto por Nombre:</label>
-        <input type="text" id="nombreBusqueda">
-        <button id="btnBuscarProducto">Buscar</button>
+        <input type="text" id="nombreBusqueda" placeholder="Buscar Producto" oninput="buscarProducto()">
     </div>
 
     <section class="row lista">
@@ -61,6 +60,7 @@
     <div id="precioTotalContainer">
         <strong>Precio Total:</strong> <span id="precioTotal">$0.00</span>
     </div>
-    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./main.js"></script>
 </body>
 </html>

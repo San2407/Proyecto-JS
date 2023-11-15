@@ -70,36 +70,57 @@ listaProductos.addEventListener("click", eliminarFila);
 
 function eliminarFila(e) {
     if (e.target.matches("i")) {
-        const indexFila = e.target.parentNode.parentNode.rowIndex + 1;
-        listaProductos.deleteRow(indexFila);
-        eliminarProducto(indexFila);
+        Swal.fire({
+            title: '¿Estas Seguro?',
+            text: 'La fila seleccionada esta elimanda.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar'
+        }).then((result) => {
+            if(result.isConfirmed){
+                const indexFila = e.target.parentNode.parentNode.rowIndex;
+                listaProductos.deleteRow(indexFila);
+                eliminarProducto(indexFila);
+
+                Swal.fire(
+                    '¡Eliminado!',
+                    'La fila ha sido eliminada exitosamente.',
+                    'success'
+                );
+                const precioTotal = productos.reduce((total, producto) => {
+                    return total + calcularPrecioCuotas(producto);
+                }, 0);
+
+                document.getElementById('precioTotal').textContent = `$${precioTotal}`;
+            }
+        });
     }
 }
 
-function buscarProducto(nombre) {
-    const productosEncontrados = productos.filter(producto => producto.nombre === nombre);
-    if (productosEncontrados.length > 0) {
-        listaProductos.innerHTML = '';
+function buscarProducto() {
+    const inputBusqueda = document.getElementById('nombreBusqueda');
+    const valorBusqueda = inputBusqueda.value.toLowerCase(); // Obtener el valor y convertirlo a minúsculas
 
-        productosEncontrados.forEach((producto, index) => {
-            producto.index = index + 1;
-            const precioTotalCuotas = calcularPrecioCuotas(producto);
-            const elementoProducto = document.createElement('tr');
-            elementoProducto.innerHTML = `
-                <th scope="row">${producto.index}</th>
-                <td>${producto.nombre}</td>
-                <td>${producto.precio}</td>
-                <td>${producto.cantidad}</td>
-                <td>${producto.cuotas}</td>
-                <td>${precioTotalCuotas}</td>
-                <td><button href=# class="eliminar"><span><i class="bi bi-x-circle-fill text-danger"></i></span></button></td>   
-            `;
-            listaProductos.appendChild(elementoProducto);
-        });
+    const productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(valorBusqueda));
 
-    } else {
-        listaProductos.innerHTML = 'No se encontraron productos con ese nombre.';
-    }
+    listaProductos.innerHTML = '';
+    productosFiltrados.forEach((producto, index) => {
+        producto.index = index + 1;
+        const precioTotalCuotas = calcularPrecioCuotas(producto);
+        const elementoProducto = document.createElement('tr');
+        elementoProducto.innerHTML = `
+            <th scope="row">${producto.index}</th>
+            <td>${producto.nombre}</td>
+            <td>${producto.precio}</td>
+            <td>${producto.cantidad}</td>
+            <td>${producto.cuotas}</td>
+            <td>${precioTotalCuotas}</td>
+            <td><button href=# class="eliminar"><span><i class="bi bi-x-circle-fill text-danger"></i></span></button></td>   
+        `;
+        listaProductos.appendChild(elementoProducto);
+    });
 }
 
 function onSubmit(event) {
@@ -110,31 +131,57 @@ function onSubmit(event) {
     const cuotas = parseInt(document.getElementById('cuotasProducto').value);
 
     if (!nombre || isNaN(precio) || isNaN(cantidad) || isNaN(cuotas)) {
-        alert('Por favor, complete todos los campos con valores válidos.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, complete todos los campos con valores válidos.',
+        });
         return;
     }
 
     if (precio <= 0 || cantidad <= 0) {
-        alert('El precio y la cantidad deben ser números positivos.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'El precio y la cantidad deben ser números positivos.',
+        });
         return;
     }
+
     agregarProducto(nombre, precio, cantidad, cuotas);
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: 'Producto agregado exitosamente!',
+    });
 }
 
 function CalcularPrecioClick(){
+    if (productos.length === 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No hay productos en la tabla. Agrega al menos uno antes de calcular el precio.',
+        });
+        return;
+    }
+
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Se calculo el precio",
+        showConfirmButton: false,
+        timer: 1500
+    });
     const precioTotal = productos.reduce((total, producto) => {
         return total + calcularPrecioCuotas(producto);
     }, 0);
     document.getElementById('precioTotal').textContent = `$${precioTotal}`;
 }
-function BuscarProductoClick(){
-    const busqueda = document.getElementById('nombreBusqueda').value;
-    buscarProducto(busqueda);
-}
 
 document.getElementById('formularioProducto').addEventListener('submit', onSubmit);
 document.getElementById('btnCalcularPrecio').addEventListener('click', CalcularPrecioClick);
-document.getElementById('btnBuscarProducto').addEventListener('click', BuscarProductoClick);
-
 productos = cargarProductos();
 mostrarProductos();
