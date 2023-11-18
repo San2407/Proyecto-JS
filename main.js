@@ -5,10 +5,10 @@ function guardarProductos() {
 
 function cargarProductos() {
     const productosJSON = localStorage.getItem('productos');
-    return productosJSON ? JSON.parse(productosJSON): [];
+    return productosJSON ? JSON.parse(productosJSON) : [];
 }
 
-function eliminarProducto(index){
+function eliminarProducto(index) {
     productos.splice(index, 1);
     guardarProductos();
     mostrarProductos();
@@ -79,7 +79,7 @@ function eliminarFila(e) {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sí, eliminar'
         }).then((result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 const indexFila = e.target.parentNode.parentNode.rowIndex;
                 listaProductos.deleteRow(indexFila);
                 eliminarProducto(indexFila);
@@ -94,6 +94,7 @@ function eliminarFila(e) {
                 }, 0);
 
                 document.getElementById('precioTotal').textContent = `$${precioTotal}`;
+                document.getElementById('precioConvertido').textContent = `$${precioTotal}`;
             }
         });
     }
@@ -101,7 +102,7 @@ function eliminarFila(e) {
 
 function buscarProducto() {
     const inputBusqueda = document.getElementById('nombreBusqueda');
-    const valorBusqueda = inputBusqueda.value.toLowerCase(); // Obtener el valor y convertirlo a minúsculas
+    const valorBusqueda = inputBusqueda.value.toLowerCase(); 
 
     const productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(valorBusqueda));
 
@@ -157,7 +158,7 @@ function onSubmit(event) {
     });
 }
 
-function CalcularPrecioClick(){
+function CalcularPrecioClick() {
     if (productos.length === 0) {
         Swal.fire({
             icon: 'error',
@@ -179,9 +180,28 @@ function CalcularPrecioClick(){
         return total + calcularPrecioCuotas(producto);
     }, 0);
     document.getElementById('precioTotal').textContent = `$${precioTotal}`;
+    document.getElementById('precioConvertido').textContent = `$${precioTotal}`;
+}
+
+function tasaCambio(){
+    var precio = document.getElementById('precioTotal').textContent;
+    precio = precio.replace('$','');
+    console.log(precio)
+    var precioConvertido = document.getElementById('precioConvertido');
+    var divisa = document.getElementById('selectDivisas').value;
+
+    fetch(`https://v6.exchangerate-api.com/v6/ca7a6b813dcfb353b37b038d/pair/ARS/${divisa}`)
+    .then(res => res.json())
+    .then(data => {
+        const cambio = data.conversion_rate;
+        const tasa = (precio * cambio).toFixed(2);
+        precioConvertido.textContent = `$${tasa}`;
+    })
 }
 
 document.getElementById('formularioProducto').addEventListener('submit', onSubmit);
 document.getElementById('btnCalcularPrecio').addEventListener('click', CalcularPrecioClick);
+const seleccionDivisas = document.getElementById('selectDivisas').addEventListener('change', tasaCambio);
+
 productos = cargarProductos();
 mostrarProductos();
