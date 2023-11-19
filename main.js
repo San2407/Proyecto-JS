@@ -93,7 +93,7 @@ function eliminarFila(e) {
                     return total + calcularPrecioCuotas(producto);
                 }, 0);
 
-                document.getElementById('precioTotal').textContent = `$${precioTotal}`;
+                document.getElementById('precioTotal').textContent = `$${precioTotal}(ARS)`;
                 tasaCambio();
             }
         });
@@ -102,7 +102,7 @@ function eliminarFila(e) {
 
 function buscarProducto() {
     const inputBusqueda = document.getElementById('nombreBusqueda');
-    const valorBusqueda = inputBusqueda.value.toLowerCase(); 
+    const valorBusqueda = inputBusqueda.value.toLowerCase();
 
     const productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(valorBusqueda));
 
@@ -179,24 +179,24 @@ function CalcularPrecioClick() {
     const precioTotal = productos.reduce((total, producto) => {
         return total + calcularPrecioCuotas(producto);
     }, 0);
-    document.getElementById('precioTotal').textContent = `$${precioTotal}`;
+    document.getElementById('precioTotal').textContent = `$${precioTotal}(ARS)`;
     tasaCambio();
 }
 
-function tasaCambio(){
+function tasaCambio() {
     var precio = document.getElementById('precioTotal').textContent;
-    precio = precio.replace('$','');
+    precio = precio.replace('$', '').replace('(ARS)','');
     console.log(precio)
     var precioConvertido = document.getElementById('precioConvertido');
     var divisa = document.getElementById('selectDivisas').value;
 
     fetch(`https://v6.exchangerate-api.com/v6/ca7a6b813dcfb353b37b038d/pair/ARS/${divisa}`)
-    .then(res => res.json())
-    .then(data => {
-        const cambio = data.conversion_rate;
-        const tasa = (precio * cambio).toFixed(2);
-        precioConvertido.textContent = `$${tasa}`;
-    })
+        .then(res => res.json())
+        .then(data => {
+            const cambio = data.conversion_rate;
+            const tasa = (precio * cambio).toFixed(2);
+            precioConvertido.textContent = `$${tasa}`;
+        })
 }
 
 document.getElementById('formularioProducto').addEventListener('submit', onSubmit);
