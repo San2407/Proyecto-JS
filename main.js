@@ -94,7 +94,7 @@ function eliminarFila(e) {
                 }, 0);
 
                 document.getElementById('precioTotal').textContent = `$${precioTotal}`;
-                document.getElementById('precioConvertido').textContent = `$${precioTotal}`;
+                tasaCambio();
             }
         });
     }
@@ -180,7 +180,7 @@ function CalcularPrecioClick() {
         return total + calcularPrecioCuotas(producto);
     }, 0);
     document.getElementById('precioTotal').textContent = `$${precioTotal}`;
-    document.getElementById('precioConvertido').textContent = `$${precioTotal}`;
+    tasaCambio();
 }
 
 function tasaCambio(){
